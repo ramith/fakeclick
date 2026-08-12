@@ -1,6 +1,6 @@
 {
   "name": "popunder-defuser",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "private": true,
   "license": "Apache-2.0",
   "description": "Chrome/Vivaldi extension that defuses window.open() popunders per-site.",

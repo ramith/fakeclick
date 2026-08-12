@@ -13,12 +13,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Set up Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
-          node-version: 20
+          node-version: lts/*
           cache: npm
 
       - name: Install dependencies
@@ -31,13 +31,13 @@ jobs:
         run: node build.mjs --zip
 
       - name: Upload unpacked extension
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: popunder-defuser-dist
           path: dist/
 
       - name: Upload packaged zip
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: popunder-defuser-zip
           path: web-ext-artifacts/*.zip
@@ -50,12 +50,12 @@ jobs:
       contents: write
     steps:
       - name: Download packaged zip
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: popunder-defuser-zip
           path: web-ext-artifacts
 
       - name: Create release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
           files: web-ext-artifacts/*.zip

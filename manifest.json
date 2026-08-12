@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Popunder Defuser",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Click the toolbar icon to stop ad-network popunders on a site: window.open() calls appear to succeed to the page's own script, but no new tab/window ever opens.",
   "permissions": ["scripting", "storage", "tabs"],
   "optional_host_permissions": ["*://*/*"],
