@@ -58,7 +58,7 @@ function makeZip() {
   const version = readVersion();
   const outDir = path.join(ROOT, "web-ext-artifacts");
   mkdirSync(outDir, { recursive: true });
-  const zipPath = path.join(outDir, `popunder-defuser-${version}.zip`);
+  const zipPath = path.join(outDir, `fakeclick-${version}.zip`);
   rmSync(zipPath, { force: true });
   execFileSync("zip", ["-r", zipPath, "."], { cwd: DIST, stdio: "inherit" });
   console.log(`Packaged ${path.relative(ROOT, zipPath)}`);

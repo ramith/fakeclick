@@ -2,8 +2,8 @@
 // before the page's own scripts get a chance to run or grab a reference
 // to the real window.open.
 (() => {
-  if (window.__popunderDefuserInstalled) return;
-  window.__popunderDefuserInstalled = true;
+  if (window.__fakeclickInstalled) return;
+  window.__fakeclickInstalled = true;
 
   const nativeOpen = window.open;
 

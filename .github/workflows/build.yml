@@ -33,13 +33,13 @@ jobs:
       - name: Upload unpacked extension
         uses: actions/upload-artifact@v7
         with:
-          name: popunder-defuser-dist
+          name: fakeclick-dist
           path: dist/
 
       - name: Upload packaged zip
         uses: actions/upload-artifact@v7
         with:
-          name: popunder-defuser-zip
+          name: fakeclick-zip
           path: web-ext-artifacts/*.zip
 
   release:
@@ -52,7 +52,7 @@ jobs:
       - name: Download packaged zip
         uses: actions/download-artifact@v8
         with:
-          name: popunder-defuser-zip
+          name: fakeclick-zip
           path: web-ext-artifacts
 
       - name: Create release

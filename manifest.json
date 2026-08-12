@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "Popunder Defuser",
+  "name": "FakeClick",
   "version": "1.0.2",
   "description": "Click the toolbar icon to stop ad-network popunders on a site: window.open() calls appear to succeed to the page's own script, but no new tab/window ever opens.",
   "permissions": ["scripting", "storage", "tabs"],
@@ -15,7 +15,7 @@
     "128": "icons/icon-on-128.png"
   },
   "action": {
-    "default_title": "Popunder Defuser — click to toggle this site",
+    "default_title": "FakeClick — click to toggle this site",
     "default_icon": {
       "16": "icons/icon-off-16.png",
       "32": "icons/icon-off-32.png",

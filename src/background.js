@@ -1,4 +1,4 @@
-const SCRIPT_ID = "popunder-defuser-main";
+const SCRIPT_ID = "fakeclick-main";
 
 const ICONS = {
   on: {
@@ -85,8 +85,8 @@ async function refreshActionForTab(tabId, url) {
   await chrome.action.setTitle({
     tabId,
     title: active
-      ? `Popunder Defuser — ON for ${domain} (click to turn off)`
-      : `Popunder Defuser — off for ${domain} (click to turn on)`,
+      ? `FakeClick — ON for ${domain} (click to turn off)`
+      : `FakeClick — off for ${domain} (click to turn on)`,
   });
 }
 
