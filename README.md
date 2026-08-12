@@ -71,6 +71,7 @@ npm test          # unit tests (node's built-in test runner)
 npm run test:e2e  # playwright e2e tests, real Chromium (needs `playwright install chromium` once)
 npm run package   # lint + test + minified build + zip -> web-ext-artifacts/
 npm run icons     # regenerate icons/ via tools/make_icons.py (needs Pillow)
+npm run icons:promo # regenerate store/*.png via tools/make_promo.py (needs Pillow)
 npm run clean     # remove dist/ and web-ext-artifacts/
 ```
 
@@ -147,6 +148,17 @@ the packaged zip as workflow artifacts. Pushing a tag like `v1.0.1`
 (matching the version in `package.json`) also attaches the zip to a
 GitHub release.
 
+## Publishing (Chrome Web Store)
+
+`store/LISTING.md` has every text field, permission justification,
+and asset path ready to paste into the CWS Developer Dashboard —
+summary, long description, single-purpose statement, and the privacy
+disclosures, plus `store/promo-1280x800.png` / `store/small-tile-440x280.png`
+as store graphics (`npm run icons:promo` to regenerate). `PRIVACY.md`
+is the linked privacy policy. The dashboard signup, one-time $5
+registration fee, and final submission still have to happen on a
+Google account — everything else is prepared.
+
 ## Files
 
 - `manifest.json` — MV3 manifest source (paths are relative, so it
@@ -161,6 +173,9 @@ GitHub release.
 - `icons/` — toolbar icon art (`icon-on-*.png` / `icon-off-*.png`) —
   a popup window shape with a red prohibition ring, greyed out when
   inactive. Source: `tools/make_icons.py` (Pillow).
+- `store/` — Chrome Web Store submission assets; see
+  [Publishing](#publishing-chrome-web-store) above.
+- `PRIVACY.md` — privacy policy, linked from the store listing.
 - `build.mjs` — esbuild-based build script (bundle, copy static
   files, optionally zip).
 - `test/*.test.js`, `test/helpers/` — unit tests (`node --test`).

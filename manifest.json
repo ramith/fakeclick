@@ -2,7 +2,8 @@
   "manifest_version": 3,
   "name": "FakeClick",
   "version": "1.0.2",
-  "description": "Click the toolbar icon to stop ad-network popunders on a site: window.open() calls appear to succeed to the page's own script, but no new tab/window ever opens.",
+  "description": "Stops ad popunders on sites you choose: window.open() appears to succeed, but no new tab or window actually opens.",
+  "homepage_url": "https://github.com/ramith/fakeclick",
   "permissions": ["scripting", "storage", "tabs"],
   "optional_host_permissions": ["*://*/*"],
   "background": {

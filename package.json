@@ -7,6 +7,7 @@
   "type": "module",
   "scripts": {
     "icons": "python3 tools/make_icons.py",
+    "icons:promo": "python3 tools/make_promo.py",
     "build": "node build.mjs",
     "watch": "node build.mjs --watch",
     "clean": "rm -rf dist web-ext-artifacts",
