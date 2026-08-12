@@ -112,3 +112,7 @@ artifacts. Pushing a tag like `v1.0.1` (matching the version in
 - `build.mjs` — esbuild-based build script (bundle, copy static
   files, optionally zip).
 - `dist/`, `web-ext-artifacts/` — build output, gitignored.
+
+## License
+
+Apache License 2.0 — see [LICENSE](LICENSE).
