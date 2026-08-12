@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "FakeClick",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Stops ad popunders on sites you choose: window.open() appears to succeed, but no new tab or window actually opens.",
   "homepage_url": "https://github.com/ramith/fakeclick",
   "permissions": ["scripting", "storage", "tabs"],

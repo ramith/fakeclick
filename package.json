@@ -1,6 +1,6 @@
 {
   "name": "fakeclick",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "private": true,
   "license": "Apache-2.0",
   "description": "Chrome/Vivaldi extension that defuses window.open() popunders per-site.",
