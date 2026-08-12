@@ -1,0 +1,21 @@
+{
+  "name": "popunder-defuser",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Chrome/Vivaldi extension that defuses window.open() popunders per-site.",
+  "type": "module",
+  "scripts": {
+    "icons": "python3 tools/make_icons.py",
+    "build": "node build.mjs",
+    "watch": "node build.mjs --watch",
+    "clean": "rm -rf dist web-ext-artifacts",
+    "lint": "eslint src build.mjs",
+    "package": "npm run lint && node build.mjs --zip"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.19.0",
+    "esbuild": "^0.24.2",
+    "eslint": "^9.19.0",
+    "globals": "^15.14.0"
+  }
+}
