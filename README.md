@@ -1,5 +1,9 @@
 # FakeClick
 
+[![Build](https://github.com/ramith/fakeclick/actions/workflows/build.yml/badge.svg)](https://github.com/ramith/fakeclick/actions/workflows/build.yml)
+[![Release](https://img.shields.io/github/v/release/ramith/fakeclick)](https://github.com/ramith/fakeclick/releases/latest)
+[![License](https://img.shields.io/github/license/ramith/fakeclick)](LICENSE)
+
 A tiny Chrome/Vivaldi (Manifest V3) extension that stops the "click close →
 new tab/window opens" popunder pattern used by ad networks on sites like
 myflixerfree.to.
