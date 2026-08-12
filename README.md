@@ -1,4 +1,4 @@
-# Popunder Defuser
+# FakeClick
 
 A tiny Chrome/Vivaldi (Manifest V3) extension that stops the "click close →
 new tab/window opens" popunder pattern used by ad networks on sites like
