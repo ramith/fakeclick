@@ -1,0 +1,19 @@
+<!doctype html>
+<html>
+<head><title>waiting</title></head>
+<body>
+  <button id="btn">open</button>
+  <script>
+    document.getElementById("btn").addEventListener("click", () => {
+      const w = window.open("https://example.invalid/ad", "_blank");
+      if (!w) {
+        document.title = "blocked-null";
+      } else if (w.closed === false) {
+        document.title = "defused";
+      } else {
+        document.title = "opened-unknown";
+      }
+    });
+  </script>
+</body>
+</html>

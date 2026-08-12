@@ -1,3 +1,5 @@
+import { hostnameOf, toMatchPatterns } from "./lib.js";
+
 const SCRIPT_ID = "fakeclick-main";
 
 const ICONS = {
@@ -22,20 +24,6 @@ async function getSites() {
 
 async function setSites(sites) {
   await chrome.storage.sync.set({ sites });
-}
-
-function toMatchPatterns(domain) {
-  return [`*://${domain}/*`, `*://*.${domain}/*`];
-}
-
-function hostnameOf(url) {
-  try {
-    const u = new URL(url);
-    if (u.protocol !== "http:" && u.protocol !== "https:") return null;
-    return u.hostname;
-  } catch {
-    return null;
-  }
 }
 
 // --- keep the injected content script's site list in sync with storage ---

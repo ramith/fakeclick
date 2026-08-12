@@ -1,11 +1,14 @@
 // Runs in the page's own JS context (MAIN world), at document_start —
 // before the page's own scripts get a chance to run or grab a reference
 // to the real window.open.
-(() => {
-  if (window.__fakeclickInstalled) return;
-  window.__fakeclickInstalled = true;
 
-  const nativeOpen = window.open;
+// Exported (rather than a bare IIFE) so it's directly unit-testable
+// against a plain mock object, without needing a real DOM/window.
+export function installFakeOpen(win) {
+  if (win.__fakeclickInstalled) return;
+  win.__fakeclickInstalled = true;
+
+  const nativeOpen = win.open;
 
   // A minimal stand-in for a real Window object. Property writes (e.g.
   // `win.location.href = "..."`) land here, not on the real page, so a
@@ -14,7 +17,7 @@
   function createFakeWindow(url) {
     const state = {
       closed: false,
-      opener: window,
+      opener: win,
       location: { href: typeof url === "string" ? url : "about:blank" },
     };
     const noop = () => {};
@@ -42,12 +45,14 @@
   });
 
   try {
-    Object.defineProperty(window, "open", {
+    Object.defineProperty(win, "open", {
       value: openTrap,
       writable: true,
       configurable: true,
     });
   } catch {
-    window.open = openTrap;
+    win.open = openTrap;
   }
-})();
+}
+
+if (typeof window !== "undefined") installFakeOpen(window);

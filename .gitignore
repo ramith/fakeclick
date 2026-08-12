@@ -2,3 +2,7 @@ node_modules/
 dist/
 web-ext-artifacts/
 *.log
+.e2e-extension/
+test-results/
+playwright-report/
+playwright/.cache/

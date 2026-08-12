@@ -66,8 +66,10 @@ folder you actually load into the browser.
 npm install       # one-time
 npm run build     # -> dist/ (unminified, for loading unpacked)
 npm run watch     # rebuild src/ on every save
-npm run lint      # eslint over src/ and build.mjs
-npm run package   # lint + minified build + zip -> web-ext-artifacts/
+npm run lint      # eslint over src/, test/, and build.mjs
+npm test          # unit tests (node's built-in test runner)
+npm run test:e2e  # playwright e2e tests, real Chromium (needs `playwright install chromium` once)
+npm run package   # lint + test + minified build + zip -> web-ext-artifacts/
 npm run icons     # regenerate icons/ via tools/make_icons.py (needs Pillow)
 npm run clean     # remove dist/ and web-ext-artifacts/
 ```
@@ -89,12 +91,61 @@ npm run clean     # remove dist/ and web-ext-artifacts/
 After editing `src/`, either re-run `npm run build` or use
 `npm run watch` and just reload the extension in `chrome://extensions`.
 
+## Tests
+
+`test/` covers the two things that actually matter for correctness:
+
+- **`test/inject.test.js`** — the `window.open` defusing logic itself:
+  the native `open` is never called, the calling script sees a
+  truthy/`closed: false` result, writes to the fake window's
+  `.location` never touch the real page, and re-installing is a no-op.
+- **`test/background.test.js`** — the toggle flow, against an in-memory
+  fake of the `chrome.*` APIs (`test/helpers/fake-chrome.mjs`):
+  clicking the icon requests/releases the per-site permission,
+  adds/removes the domain from storage, registers/unregisters the
+  `document_start` MAIN-world content script with the right `matches`,
+  and updates the per-tab icon/title — including a declined-permission
+  case and non-http(s) tabs like `chrome://`.
+- **`test/lib.test.js`** — the small pure helpers (`hostnameOf`,
+  `toMatchPatterns`) that both of the above build on.
+
+`src/background.js` and `src/inject.js` export their core logic
+(`installFakeOpen`, plus the helpers in `src/lib.js`) specifically so
+these can run under plain Node — no browser needed. Run with `npm test`.
+
+### End-to-end (Playwright)
+
+The unit tests above mock `chrome.*` entirely, so they can't confirm
+the extension actually injects into a real page at the right time.
+`test/e2e/popunder.spec.js` does that for real, in an actual Chromium
+with the built `dist/` loaded as an unpacked extension:
+
+- **Site enabled** — toggles the fixture server's origin on (the same
+  `chrome.storage.sync` write the toolbar click makes), waits for the
+  real `chrome.scripting.registerContentScripts()` call to land, then
+  clicks a real button that calls `window.open()` and asserts **no new
+  browser tab actually appears** (`context.pages().length` unchanged).
+- **Site not enabled (control)** — same click, but proves a real,
+  un-defused `window.open()` *would* have opened a tab here, so the
+  first result is actually the extension's doing and not some quirk
+  of the test harness.
+
+Chrome's own `chrome.permissions.request` needs a trusted user gesture
+on the extension's own UI, which Playwright can't fire at a native
+toolbar button — so `test/e2e/global-setup.mjs` builds a test-only
+copy of `dist/` with the fixture server's origin pre-granted via a
+required `host_permissions` entry (the shipped manifest, which only
+ever asks via the optional-permission + click flow, is untouched).
+
+Run with `npx playwright install chromium` once, then `npm run test:e2e`.
+
 ## CI
 
-`.github/workflows/build.yml` lints and builds on every push/PR, and
-uploads both the unpacked `dist/` and the packaged zip as workflow
-artifacts. Pushing a tag like `v1.0.1` (matching the version in
-`package.json`) also attaches the zip to a GitHub release.
+`.github/workflows/build.yml` lints, runs both test suites, and
+builds on every push/PR, and uploads both the unpacked `dist/` and
+the packaged zip as workflow artifacts. Pushing a tag like `v1.0.1`
+(matching the version in `package.json`) also attaches the zip to a
+GitHub release.
 
 ## Files
 
@@ -106,12 +157,16 @@ artifacts. Pushing a tag like `v1.0.1` (matching the version in
   `chrome.scripting.registerContentScripts`.
 - `src/inject.js` — the actual `window.open` override, runs in the
   page's own JS context.
+- `src/lib.js` — small pure helpers shared by `background.js`.
 - `icons/` — toolbar icon art (`icon-on-*.png` / `icon-off-*.png`) —
   a popup window shape with a red prohibition ring, greyed out when
   inactive. Source: `tools/make_icons.py` (Pillow).
 - `build.mjs` — esbuild-based build script (bundle, copy static
   files, optionally zip).
-- `dist/`, `web-ext-artifacts/` — build output, gitignored.
+- `test/*.test.js`, `test/helpers/` — unit tests (`node --test`).
+- `test/e2e/`, `playwright.config.js` — Playwright end-to-end tests.
+- `dist/`, `web-ext-artifacts/`, `.e2e-extension/` — build/test
+  output, gitignored.
 
 ## License
 
